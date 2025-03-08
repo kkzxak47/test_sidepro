@@ -13,11 +13,7 @@ from app import db
 basedir = os.path.abspath(os.path.dirname(__file__))
 upload_path = os.path.join(basedir, "../../static/descriptions_images")
 
-logging.basicConfig(
-    level=logging.DEBUG,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    handlers=[logging.StreamHandler()],
-)
+
 logger = logging.getLogger(__name__)
 
 

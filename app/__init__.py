@@ -4,10 +4,17 @@ from flask_restful import Resource, Api
 from flask_cors import CORS
 from config import Config, basedir
 import pymongo
-
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    handlers=[logging.StreamHandler()],
+)
+logger = logging.getLogger(__name__)
 
 client = pymongo.MongoClient(Config.MONGODB_DATABASE_URL)
+logger.info(f"Connected to MongoDB: {client}")
 db = client[Config.MONGODB_DB]
+logger.info(f"Database: {db}")
 
 def custom_static(filename):
     print('static', filename)
