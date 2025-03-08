@@ -16,7 +16,8 @@ client = pymongo.MongoClient(Config.MONGODB_DATABASE_URL)
 logger.info(f"{os.environ.get('MONGODB_DATABASE_URL')=}")
 logger.info(f"{Config.MONGODB_DATABASE_URL=}")
 logger.info(f"Connected to MongoDB: {client}")
-db = client[Config.MONGODB_DB]
+# db = client[Config.MONGODB_DB]
+db = client["default"]
 logger.info(f"Database: {db}")
 
 def custom_static(filename):
