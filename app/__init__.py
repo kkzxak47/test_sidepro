@@ -4,6 +4,7 @@ from flask_restful import Resource, Api
 from flask_cors import CORS
 from config import Config, basedir
 import pymongo
+import os
 logging.basicConfig(
     level=logging.DEBUG,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -12,6 +13,8 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 client = pymongo.MongoClient(Config.MONGODB_DATABASE_URL)
+logger.info(f"{os.environ.get('MONGODB_DATABASE_URL')=}")
+logger.info(f"{Config.MONGODB_DATABASE_URL=}")
 logger.info(f"Connected to MongoDB: {client}")
 db = client[Config.MONGODB_DB]
 logger.info(f"Database: {db}")
