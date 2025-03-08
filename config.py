@@ -13,7 +13,8 @@ class Config:
     # connect to MongoDB
     MONGODB_DATABASE_URL = os.getenv("MONGODB_DATABASE_URL")
     # MONGODB_URI = os.getenv('MONGODB_URI')
-    MONGODB_DB = os.getenv('MONGODB_DB')
+    MONGODB_DATABASE_NAME = os.getenv("MONGODB_DATABASE_NAME")
+    # MONGODB_DB = os.getenv('MONGODB_DB')
     DEBUG = os.getenv('FLASK_DEBUG') or os.getenv('FLASK_ENV') == 'development'
     SECRET_KEY = os.getenv('SECRET_KEY') or 'you-will-never-guess-so'
     SQLALCHEMY_DATABASE_URI = os.getenv('SQLALCHEMY_DATABASE_URI')
