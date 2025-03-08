@@ -6,8 +6,8 @@ from config import Config, basedir
 import pymongo
 
 
-client = pymongo.MongoClient(Config.MONGODB_URI)
-db = client[Config.MONGODB_DB]
+client = pymongo.MongoClient(Config.MONGODB_DB)
+db = client[Config.MONGODB_DATABASE_URL]
 
 def custom_static(filename):
     print('static', filename)

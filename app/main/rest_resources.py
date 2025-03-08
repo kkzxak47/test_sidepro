@@ -13,6 +13,11 @@ from app import db
 basedir = os.path.abspath(os.path.dirname(__file__))
 upload_path = os.path.join(basedir, "../../static/descriptions_images")
 
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    handlers=[logging.StreamHandler()],
+)
 logger = logging.getLogger(__name__)
 
 
@@ -63,6 +68,7 @@ class Text2Image(Resource):
             return {"task_id": task_id, "msg": "success", "data": {"text": text}}, 201
             # return {'task_id': task_id}, 201
         except Exception as error:
+            logger.exception(str(error))
             return {"error": str(error)}, 400
 
 
