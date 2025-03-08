@@ -6,7 +6,7 @@ from flask import request
 from flask_restful import Resource
 from config import Config
 from bson.objectid import ObjectId
-from confluent_kafka import Producer
+# from confluent_kafka import Producer
 from app import db
 
 
@@ -26,21 +26,6 @@ def get_task_from_mongodb(collection_name, _id):
     collection = db[collection_name]
     result = collection.find_one({"_id": ObjectId(_id)})
     return result
-
-
-def send_to_kafka(topic, message):
-    topic_types = [
-        Text2Image.kafka_topic,
-        GenerateDescription.kafka_topic,
-        GenerateText.kafka_topic,
-    ]
-    if topic not in topic_types:
-        raise ValueError(f"Invalid topic type. Must be one of: {topic_types}")
-    message["task_type"] = topic
-    message = json.dumps(message).encode("utf-8")
-    producer = Producer({"bootstrap.servers": Config.KAFKA_BOOTSTRAP_SERVERS})
-    producer.produce(topic, message, callback=delivery_report)
-    producer.flush()
 
 
 def delivery_report(err, msg):
@@ -108,7 +93,7 @@ class GenerateDescription(Resource):
             )
 
             file.save(f"{upload_path}/{task_id}{file_extension}")
-            send_to_kafka(self.kafka_topic, {"task_id": task_id, "ext": file_extension})
+            # send_to_kafka(self.kafka_topic, {"task_id": task_id, "ext": file_extension})
 
             return {"task_id": task_id}, 201
         except Exception as error:
@@ -136,7 +121,7 @@ class GenerateText(Resource):
             # save task to MongoDB
             task_id = save_to_mongodb(self.collection_name, {"prompt": prompt})
             # publish task to Kafka
-            send_to_kafka(self.kafka_topic, {"task_id": task_id, "prompt": prompt})
+            # send_to_kafka(self.kafka_topic, {"task_id": task_id, "prompt": prompt})
             return {"task_id": task_id}, 201
         except Exception as error:
             return {"error": str(error)}, 400
